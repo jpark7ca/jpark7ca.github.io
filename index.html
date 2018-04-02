@@ -29,6 +29,7 @@
 			padding: 1rem;
 			text-align: center;
 			vertical-align: middle;
+			cursor: pointer;
 		}
 		
 		.metro:hover {
@@ -97,7 +98,7 @@
 					$$\textit{L}= \sum_{k}^{ } \left (-y_{k}  \right )\cdot \textit{ln}\left ( \hat y_{k} \right )$$
 				</p> -->
 				<div class="row">
-					<span class="metro border border-secondary">
+					<span class="metro border border-secondary" id="softmax">
 						Multiclass logistic regression (Softmax) and its derivative
 					</span>
 					<span class="metro border border-secondary"></span>
@@ -123,6 +124,13 @@
 		});
 		</script>
 	<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/MathJax.js?config=TeX-MML-AM_CHTML">
+	</script>
+	<script>
+		$("#softmax").on("click", function(e){
+			e.preventDefault();
+			window.location.href = "softmax.html";
+			return false;
+		});
 	</script>
 </body>
 

@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+	 crossorigin="anonymous">
+	<link href="https://fonts.googleapis.com/css?family=Cinzel+Decorative" rel="stylesheet">
+	<title>Beginners Guide to the Machine Learning</title>
+	<style>
+		.text-center {
+			text-align: center;
+		}
+
+		h1.cinzel {
+			font-family: 'Cinzel Decorative', cursive;
+		}
+
+		.container-body {
+			margin-top: 100px;
+		}
+
+		.metro{
+			display: inline-block;
+			width: 10rem;
+			height: 10rem;
+			margin: .25rem;
+			padding: 1rem;
+			text-align: center;
+			vertical-align: middle;
+		}
+		
+		.metro:hover {
+			background-color: #50555D;
+			/*color: #D7E4FA;*/
+			color: #FFFFFF;
+			text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+		}
+
+	</style>
+	<script defer src="https://use.fontawesome.com/releases/v5.0.9/js/all.js" integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl" crossorigin="anonymous"></script>
+</head>
+
+<body>
+	<main role="main" class="container">
+		<nav class="navbar fixed-top navbar-expand-sm navbar-dark bg-dark">
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav-content" aria-controls="nav-content"
+			 aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<!-- Brand -->
+			<a class="navbar-brand" href="#"><i class="fab fa-connectdevelop"></i></a>
+			<!-- Links -->
+			<div class="collapse navbar-collapse" id="nav-content">
+				<ul class="navbar-nav">
+					<li class="nav-item">
+						<a class="nav-link" href="#">Activation Functions</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#">Cost Functions</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#">Derivatives and Back Propagation </a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#">Optimization</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+		<div class="row col-md-12 container-body">
+			<h1 class="text-center cinzel">Multiclass logistic regression (Softmax) and its derivative</h1>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<p></p>
+				<p>
+                        While watching a youtube video lecture, “<i>Lecture 4.3 - The softmax output function</i>”, taught by Geoffrey Hinton, 
+                        I have noticed that he did not show steps to find the derivative of cross entropy cost function 
+                        with respect to a variable, $z_{i}$, which resulted in $s_{i} - y_{i}$ in his lecture. 
+                        For beginners in calculus, this was quite a mystery to find the final formula as shown below 
+                </p>
+                <p>
+                    $$\frac{\partial C}{\partial z_{i}} = \sum_{k}^{ } \frac{\partial C}{\partial s_{k}}\frac{\partial s_{k}}{\partial z_{i}} = s_{i} - y_{i}$$  
+                </p>
+                <p>
+                    where the cross enptry cost function is $$C = -\sum_{k}^{ } y_{k}ln(s_{k} )$$
+                </p>
+                <p>
+                        So, I have decided to take this challenge, and as a result of my effort, 
+                        I was able to describe detailed steps to derive the cost function, 
+                        and I hope this post is helpful for those who are not familiar with calculus (like me)
+				</p>
+                <p>
+                        Before diving into the derivative of cross entropy cost function, let me start with a layer (Layer 2) of the neural network 
+                        with 2 output nodes ($a_{0}^{2}$  and $a_{1}^{2}$ ) that feed to the last layer with 3 nodes during forward propagation. 
+                        To illustrate the process, let me show you the diagram first:
+                </p>
+                <p> 
+                        <img src="images/snn_softmax.png" width="400px" class="img-fluid" />
+                </p>
+                <p>
+                        Each node in the last layer represents a category, and its output (softmax activation or multiclass logistic regression) 
+                        is the probability of being what is suggested. For example, the output of each node in the last layer indicates 
+                        the probability of being either dog, cat or rabbit. If the output of the last layer is [0.7, 0.2, 0.1] , 
+                        the probability of being a dog is 70%, 20% for cat and 10% for rabbit. Keep in mind that the sum of the probabilities of the all three nodes must be 1 (100%).
+                </p>
+                <p>
+                        The notation used in this diagram can be a bit confusing, but it is necessary to keep track of 
+                        elements when we do the matrix calculation. To clarify what each notation means, let me start with 
+                        the first node ($a_{0}^{2}$) of the layer 2. The superscript means “layer”, in this case, Layer 2, and 
+                        the subscript indicates “node number”, in this case, the first element or node 0 in Layer 2. 
+                        For weight notation, there is another subscript in front of each weight value, which indicates 
+                        what input node is to be multiplied with this weight value. In this example ($_{0}^{ }w_{0}^{3}$), 
+                        the input, $a_{0}^{2}$ will be multiplied with $_{0}^{ }w_{0}^{3}$ to calculate $z_{0}^{3}$.
+                </p>
+                <p>
+                    The last forward propagation can be represented in matrix as shown below. The dot product between 
+                    3x2 weight matix (layer 3) and 2x1 input matrix (layer 2) results in 3x1 matrix which is added to 
+                    another 3x1 bias matrix to get the 3x1 matrix with z value. The resulting values in z matrix will be
+                    feeded to the softmax activation function. 
+                </p>
+                <p>
+                    $$\begin{vmatrix}
+                    _{0}^{ }w_{0}^{3} & _{1}^{ }w_{0}^{3} \\ \\
+                    _{0}^{ }w_{1}^{3} & _{1}^{ }w_{1}^{3} \\ \\
+                    _{0}^{ }w_{2}^{3} & _{1}^{ }w_{2}^{3} \\
+                    \end{vmatrix}
+                    \cdot 
+                    \begin{vmatrix}
+                    a_{0}^{2} \\ \\
+                    a_{1}^{2}  \\
+                    \end{vmatrix}
+                    +
+                    \begin{vmatrix}
+                    b_{0}^{3} \\ \\
+                    b_{1}^{3} \\ \\
+                    b_{2}^{3} \\
+                    \end{vmatrix}
+                    =
+                    \begin{vmatrix}
+                    _{0}^{ }w_{0}^{3} \cdot a_{0}^{2} + _{1}^{ }w_{0}^{3} \cdot a_{1}^{2} + b_{0}^{3} \\ \\
+                    _{0}^{ }w_{1}^{3} \cdot  a_{0}^{2} + _{1}^{ }w_{1}^{3} \cdot a_{1}^{2} + b_{1}^{3} \\ \\
+                    _{0}^{ }w_{2}^{3} \cdot  a_{0}^{2} + _{1}^{ }w_{2}^{3} \cdot a_{1}^{2}  + b_{2}^{3} \\
+                    \end{vmatrix}
+                    =
+                    \begin{vmatrix}
+                    z_{0}^{3} \\ \\
+                    z_{1}^{3} \\ \\
+                    z_{2}^{3} \\
+                    \end{vmatrix}
+                    $$
+                </p>
+                <p>
+                    In this post, I don't think there is a need to explain the softmax activation (multiclass logistic regression) and entropy cost function
+                    since there are so many other sources that explain theses topics well, fortunately. By the way, my favorite machine learning lectures are from Andew Ng. 
+                    For the derivate of the cost function with respect to $z_{i}$, we just need to know that the output of the softmax function represents the probability 
+                    of what each output suggests (e.g., dog, cat or rabbit), that is a probability distribution over all posible outcomes (k).
+                    In the example of "dog, cat and rabbit" classification, the possible outcomes are 3 ($s_{0}^{3}$, $s_{1}^{3}$ and $s_{2}^{3}$).
+                </p>
+                <p>
+                    $$
+                    Softmax = S(z_{i}) = \frac{e^{z_{i}}}{\sum_{k}^{ }e^{z_{k}}}
+                    $$
+
+                    $$
+                    S = 
+                    \begin{vmatrix}
+                    \frac{e^{z_{0}^{3}}}{e^{z_{0}^{3}} + e^{z_{1}^{3}} + e^{z_{2}^{3}}} \\ \\
+                    \frac{e^{z_{1}^{3}}}{e^{z_{0}^{3}} + e^{z_{1}^{3}} + e^{z_{2}^{3}}} \\ \\
+                    \frac{e^{z_{2}^{3}}}{e^{z_{0}^{3}} + e^{z_{1}^{3}} + e^{z_{2}^{3}}} \\
+                    \end{vmatrix}
+                    =\begin{vmatrix}
+                    \frac{e^{z_{0}^{3}}}{\sum_{k=0}^{2 }e^{z_{k}}} \\ \\
+                    \frac{e^{z_{1}^{3}}}{\sum_{k=0}^{2 }e^{z_{k}}} \\ \\
+                    \frac{e^{z_{2}^{3}}}{\sum_{k=0}^{2 }e^{z_{k}}} \\
+                    \end{vmatrix}
+                    =
+                    \begin{vmatrix}
+                    s_{0}^{3} \\ \\
+                    s_{1}^{3} \\ \\
+                    s_{2}^{3} \\
+                    \end{vmatrix}
+                    $$
+                </p>
+                <p>
+                    Let's assume that the output values at the end of forward propagation are :
+                </p>
+                <p>
+                    $$
+                    \hat{y} = s = \begin{vmatrix}
+                    s_{0}^{3} = 0.4\\ \\
+                    s_{1}^{3} = 0.5\\ \\
+                    s_{2}^{3} = 0.1
+                    \end{vmatrix}
+                    $$
+                </p>
+                <p>
+                    but, the actual data label for the image that the machine is trying to learn is :
+                </p>
+                <p>
+                        $$
+                        y  = \begin{vmatrix}
+                        1 (=dog)\\ \\
+                        0 (\neq cat)\\ \\
+                        0 (\neq rabbit)
+                        \end{vmatrix}
+                        $$
+                </p>
+                <p>
+                    The probability of being a dog is only 0.4 (40%), but the actual image is a dog, in this example. So 
+                    the cost function should penalize the mistake with a really high value which in turn, will be used to 
+                    adjust the weight and bias values for the machine to learn better. 
+                </p>
+                <p>
+                    $$
+                    C = \sum_{k}^{ }-{y}{_{k}}\cdot ln(\hat{y}{_{k}})
+                    $$
+                </p>
+                <p>
+                    $$
+                    C=\sum_{k=0}^{2} -{y}{_{k}}\cdot ln(s{_{k}})
+                    = -(1)\cdot ln(0.4) + -(0)\cdot ln(0.5) + -(0)\cdot ln(0.1)
+                    $$
+                </p>
+                <p>
+                    $$
+                    = -(1)\cdot (-0.916)
+                    = 0.916
+                    $$
+                </p>
+                <p>
+                    The objective of this post is to find the derivate (or gradient in vector notation) of cost function with 
+                    respect to weight values. Since there are multiple parameters in this case, finding partial derivate of 
+                    each paramter is more accurate statement. The opposite direction of gradient will point to the steepest descent, which 
+                    will be used to adjust the weight (and bias) values using the gradient descent algorithm. Let's find the gradient.
+                </p>
+
+				<!-- <p>
+					This equation, $\textit{L}= \sum_{k}^{ } \left (-y_{k}  \right )\cdot \textit{ln}\left ( \hat y_{k} \right )$ is not a typical solution.
+				</p>
+				<p>
+					$$\textit{L}= \sum_{k}^{ } \left (-y_{k}  \right )\cdot \textit{ln}\left ( \hat y_{k} \right )$$
+				</p> -->
+				
+			</div>
+		</div>
+	</main>
+	<footer class="container">
+		<p>© jpark7ca 2018 </p>
+	</footer>
+	<!-- scripts -->
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+	 crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+	 crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+	 crossorigin="anonymous"></script>
+	<script type="text/x-mathjax-config">
+		MathJax.Hub.Config({
+		  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+		});
+		</script>
+	<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/MathJax.js?config=TeX-MML-AM_CHTML">
+	</script>
+</body>
+
+</html>
