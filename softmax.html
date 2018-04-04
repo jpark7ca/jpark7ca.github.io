@@ -210,8 +210,7 @@
                 </p>
                 <p>
                     The predicted probability of being a dog is only 0.4 (40%), but the actual image is a dog (100%), in this example. So 
-                    the cost function or cross entroy function, $H(p, q) = -\sum p(x) log q(x)$ where q means predicted probability, 
-                    should penalize the mistake with a really high value. 
+                    the cost function, $C$ should penalize the mistake with a really high value. 
                 </p>
                 <p>
                     $$
@@ -232,9 +231,9 @@
                 </p>
                 <p>
                     The objective of this post is to find the derivate (or gradient in vector notation) of cost function with 
-                    respect to weight values. Since there are multiple parameters in this case, finding partial derivate of cost function with respect to
-                    each paramter is more accurate statement. The opposite direction of gradient will point to the steepest descent, which 
-                    will be used to adjust the weight (and bias) values using the gradient descent algorithm. Let's find the gradient.
+                    respect to weights and biases (parameters). Since there are multiple parameters in this case, finding partial derivate of cost function with respect to
+                    each paramter is more accurate statement. The opposite direction of gradient vector (derivate of cost function) 
+                    points to the steepest descent which is the basis of grdient descent algorithm for machine learning. Let's find the gradient.
                 </p>
 
 				<!-- <p>
