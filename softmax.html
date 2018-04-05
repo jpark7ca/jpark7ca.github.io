@@ -201,10 +201,10 @@
                 </p>
                 <p>
                         $$
-                        y  = \begin{vmatrix}
-                        1 (=dog)\\ \\
-                        0 (\neq cat)\\ \\
-                        0 (\neq rabbit)
+                        y_{i}  = \begin{vmatrix}
+                        y_{0} = 1\quad (=dog)\\ \\
+                        y_{1} = 0\quad (\neq cat)\\ \\
+                        y_{2} = 0\quad (\neq rabbit)
                         \end{vmatrix}
                         $$
                 </p>
@@ -239,7 +239,7 @@
                     The first step is to define the derivate of cost function with respect to a $z_{i}$ value as shown below. 
                 </p>
                 <p>
-                        $$\frac{\partial C}{\partial z_{i}} = \sum_{k}^{ } \frac{\partial C}{\partial s_{k}}\frac{\partial s_{k}}{\partial z_{i}} = s_{i} - y_{i}$$  
+                        $$\frac{\partial C}{\partial z_{i}} = \sum_{k}^{ } \frac{\partial C}{\partial s_{k}}\frac{\partial s_{k}}{\partial z_{i}}$$  
                 </p>
                 <p>
                     By using the chain rule of calculus ($\frac{\mathrm{d}y}{\mathrm{d}x} =  \frac{\mathrm{d}y}{\mathrm{d}u}\frac{\mathrm{d}u}{\mathrm{d}x}$), the process can be
@@ -250,11 +250,33 @@
                 </p>
                 <p>
                     $$
-                    \frac{\partial C}{\partial s_{k}} = -y_{i}\cdot \frac{1}{s_{i}}\qquad when\: k = i
-                    $$
-                    $$$$
+                    \frac{\partial C}{\partial s_{k}} = \left\{\begin{matrix}
+                    -y_{i}\cdot \frac{1}{s_{i}}\qquad when\: i\qquad (A)
+                    \\ \\
+                    \sum_{k\neq i} -y_{k\neq i}\cdot \frac{1}{s_{k\neq i}}\quad when\: k \neq i\qquad (B)
+                    \end{matrix}\right.
+                    $$                
                 </p>
-
+                <p>
+                    In the example of "dog, cat and rabbit" classification above, the cost function can be expressed in both (A) and (B).
+                    The scenario (A) is when the actual image is a dog ($y_{i=0}$ = dog), therefore, $i = 0$, and (B) is when other values 
+                    are cat ($y_{i=1}$ = cat) and rabbit ($y_{i=2}$ = rabbit), consequently, $i \neq 0$, which is expressed in (B) using summation notation ($k \neq i$)
+                </p>
+                <p>
+                    $$
+                    C = \begin{vmatrix}
+                    \left.\begin{matrix}
+                    -y\cdot ln(s_{0}^{3}) = 0.916
+                    \end{matrix}\right\}\quad (A)\qquad when\: i = 0
+                    \\ \\
+                    \left.\begin{matrix}
+                    -y\cdot ln(s_{1}^{3}) = 0
+                    \\ \\
+                    -y\cdot ln(s_{2}^{3}) = 0
+                    \end{matrix}\right\}\qquad (B)\qquad when\: i \neq 0
+                    \end{vmatrix}
+                    $$
+                </p>
 				<!-- <p>
 					This equation, $\textit{L}= \sum_{k}^{ } \left (-y_{k}  \right )\cdot \textit{ln}\left ( \hat y_{k} \right )$ is not a typical solution.
 				</p>
