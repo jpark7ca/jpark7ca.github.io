@@ -112,13 +112,13 @@
                         the first node ($a_{0}^{2}$) of the layer 2. The superscript means “layer”, in this case, Layer 2, and 
                         the subscript indicates “node number”, in this case, the first element or node 0 in Layer 2. 
                         For weight notation, there is another subscript in front of each weight value, which indicates 
-                        what input node this weight value should be multiplied with. In this example ($_{0}^{ }w_{0}^{3}$), 
-                        the input, $a_{0}^{2}$ is multiplied with $_{0}^{ }w_{0}^{3}$ to calculate $z_{0}^{3}$.
+                        what input node this weight value should be multiplied with. In this example, 
+                        the weight, $_{0}^{ }w_{0}^{3}$ is multiplied with $a_{0}^{2}$ (input node) to calculate $z_{0}^{3}$.
                 </p>
                 <p>
                     The last forward propagation ($W\cdot A + B = Z$) can be represented in matrix as shown below. The dot product between 
                     3x2 weight matix (layer 3) and 2x1 input matrix (layer 2) results in 3x1 matrix which is added to 
-                    another 3x1 bias matrix to get the 3x1 matrix with z value. The resulting values in z matrix will be
+                    another 3x1 bias matrix to get the 3x1 matrix with z values. The resulting values in z matrix will be
                     input parameters to the softmax activation function. 
                 </p>
                 <p>
@@ -234,6 +234,25 @@
                     respect to weights and biases (parameters). Since there are multiple parameters in this case, finding partial derivate of cost function with respect to
                     each paramter is more accurate statement. The opposite direction of gradient vector (derivate of cost function) 
                     points to the steepest descent, which is the basis of grdient descent algorithm for machine learning. Let's find the gradient.
+                </p>
+                <p>
+                    The first step is to define the derivate of cost function with respect to a $z_{i}$ value as shown below. 
+                </p>
+                <p>
+                        $$\frac{\partial C}{\partial z_{i}} = \sum_{k}^{ } \frac{\partial C}{\partial s_{k}}\frac{\partial s_{k}}{\partial z_{i}} = s_{i} - y_{i}$$  
+                </p>
+                <p>
+                    By using the chain rule of calculus ($\frac{\mathrm{d}y}{\mathrm{d}x} =  \frac{\mathrm{d}y}{\mathrm{d}u}\frac{\mathrm{d}u}{\mathrm{d}x}$), the process can be
+                    divided in two parts: $\frac{\partial C}{\partial s_{k}}$ and $\frac{\partial s_{k}}{\partial z_{i}}$. Let's focus on the first part.
+                    Since the cost function, $C=\sum_{k}^{ } -{y}{_{k}}\cdot ln(s{_{k}})$ is in $f = ln(x)$ format (where its derivate is
+                    ${f}' = \frac{1}{x}$), the drivative of cost function with respect to 
+                    $s_{k}$ can be expressed in :
+                </p>
+                <p>
+                    $$
+                    \frac{\partial C}{\partial s_{k}} = -y_{i}\cdot \frac{1}{s_{i}}\qquad when\: k = i
+                    $$
+                    $$$$
                 </p>
 
 				<!-- <p>
