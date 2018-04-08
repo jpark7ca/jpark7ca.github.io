@@ -251,31 +251,96 @@
                 <p>
                     $$
                     \frac{\partial C}{\partial s_{k}} = \left\{\begin{matrix}
-                    -y_{i}\cdot \frac{1}{s_{i}}\qquad when\: i\qquad (A)
+                    -y_{i}\cdot \frac{1}{s_{i}}\qquad when\: i
                     \\ \\
-                    \sum_{k\neq i} -y_{k\neq i}\cdot \frac{1}{s_{k\neq i}}\quad when\: k \neq i\qquad (B)
+                    \sum_{k\neq i} -y_{k\neq i}\cdot \frac{1}{s_{k\neq i}}\quad when\: k \neq i
                     \end{matrix}\right.
                     $$                
                 </p>
                 <p>
-                    In the example of "dog, cat and rabbit" classification above, the cost function can be expressed in both (A) and (B).
-                    The scenario (A) is when the actual image is a dog ($y_{i=0}$ = dog), therefore, $i = 0$, and (B) is when other values 
-                    are cat ($y_{i=1}$ = cat) and rabbit ($y_{i=2}$ = rabbit), consequently, $i \neq 0$, which is expressed in (B) using summation notation ($k \neq i$)
+                    In the example of "dog, cat and rabbit" classification above, the cost function can be expressed in both (a) and (b).   
+                    The scenario (a) is when the actual image is a dog ($y_{i=0}$ = dog), therefore, $i = 0$, and (b) is when remaining values 
+                    are cat ($y_{i=1}$ = cat) and rabbit ($y_{i=2}$ = rabbit), consequently, $i \neq 0$, which is expressed in (b). 
+                    In previous formula, the summation notation ($\sum_{k\neq i} $) was used to represet when $k\neq i$. 
                 </p>
                 <p>
                     $$
-                    C = \begin{vmatrix}
+                    C = \sum_{k}^{ }-{y}{_{k}}\cdot ln(\hat{y}{_{k}})
+                    = \begin{vmatrix}
                     \left.\begin{matrix}
                     -y_{i=0}\cdot ln(s_{i=0}^{3})
-                    \end{matrix}\right\}\quad (A)\qquad when\: i = 0
+                    \end{matrix}\right\}\qquad when\: i = 0 \quad (a)
                     \\ \\
                     \left.\begin{matrix}
                     -y_{i=1}\cdot ln(s_{i=1}^{3})
                     \\ \\
                     -y_{i=2}\cdot ln(s_{i=2}^{3})
-                    \end{matrix}\right\}\qquad (B)\qquad when\: i \neq 0
-                    \end{vmatrix}
+                    \end{matrix}\right\}\qquad when\: i \neq 0 \quad (b)
+                    \end{vmatrix}                    
                     $$
+                </p>
+                <p>
+                    Base on this example, you need to find the derivate of cost functions with respect to 
+                    $z_{0}^{3}$, $z_{1}^{3}$ and $z_{2}^{3}$.
+                </p>
+                <p>
+                    $$
+                    \begin{align*}
+                    \frac{\partial C}{\partial z_{i}} 
+                    &= \sum_{k}^{ } \frac{\partial C}{\partial s_{k}}\frac{\partial s_{k}}{\partial z_{i}} 
+                    \qquad where \quad
+                    
+                    \frac{\partial C}{\partial s_{k}} = \left\{\begin{matrix}
+                    -y_{i}\cdot \frac{1}{s_{i}}\qquad when\: i
+                    \\ \\
+                    \sum_{k\neq i} -y_{k\neq i}\cdot \frac{1}{s_{k\neq i}}\quad when\: k \neq i
+                    \end{matrix}\right.
+
+                    \\ \\
+                    &= (-y_{i}\cdot \frac{1}{s_{i}}\cdot \frac{\partial s_{i}}{\partial z_{i}}) + (\sum_{k\neq i} -y_{k\neq i}\cdot \frac{1}{s_{k\neq i}}\cdot \frac{\partial s_{k\neq i}}{\partial z_{i}})                
+                    \\ \\
+                    &= (A) + (B)
+                    \end{align*}
+                    $$
+                </p>
+                <p>
+                    Let's start with $\frac{\partial C}{\partial s_{k}}$:
+                </p>
+                <p>
+                    $$
+                    \begin{align*}
+                        \frac{\partial C}{\partial z_{0}^{3}} = \sum_{k=0}^{2} \frac{\partial C}{\partial s_{k}}\frac{\partial s_{k}}{\partial z_{0}^{3}} 
+                        &= (A) + (B) \\
+                        &= ( -y_{0}\cdot \frac{1}{s_{0}^{3}}\cdot \frac{\partial s_{0}^{3}}{\partial z_{0}^{3}} )
+                        + ( -y_{1}\cdot \frac{1}{s_{1}^{3}}\cdot \frac{\partial s_{1}^{3}}{\partial z_{0}^{3}}
+                        + -y_{2}\cdot \frac{1}{s_{2}^{3}}\cdot \frac{\partial s_{2}^{3}}{\partial z_{0}^{3}} ) \\
+                    \end{align*}
+                    $$  
+                </p>
+                <p>
+                    $$
+                    \begin{align*}
+                        \frac{\partial C}{\partial z_{1}^{3}} = \sum_{k=0}^{2} \frac{\partial C}{\partial s_{k}}\frac{\partial s_{k}}{\partial z_{1}^{3}} 
+                        &= (A) + (B) \\
+                        &= ( -y_{1}\cdot \frac{1}{s_{1}^{3}}\cdot \frac{\partial s_{1}^{3}}{\partial z_{1}^{3}} )
+                        + ( -y_{0}\cdot \frac{1}{s_{0}^{3}}\cdot \frac{\partial s_{0}^{3}}{\partial z_{1}^{3}}
+                        + -y_{2}\cdot \frac{1}{s_{2}^{3}}\cdot \frac{\partial s_{2}^{3}}{\partial z_{1}^{3}} ) \\
+                    \end{align*}
+                    $$   
+                </p>
+                <p>
+                    $$
+                    \begin{align*}
+                        \frac{\partial C}{\partial z_{2}^{3}} = \sum_{k=0}^{2} \frac{\partial C}{\partial s_{k}}\frac{\partial s_{k}}{\partial z_{2}^{3}}
+                        &= (A) + (B) \\
+                        &= ( -y_{2}\cdot \frac{1}{s_{2}^{3}}\cdot \frac{\partial s_{2}^{3}}{\partial z_{2}^{3}} )
+                        + ( -y_{0}\cdot \frac{1}{s_{0}^{3}}\cdot \frac{\partial s_{0}^{3}}{\partial z_{2}^{3}}
+                        + -y_{1}\cdot \frac{1}{s_{1}^{3}}\cdot \frac{\partial s_{1}^{3}}{\partial z_{2}^{3}} ) \\
+                    \end{align*}                        
+                    $$
+                </p>
+                <p>
+                    
                 </p>
 				<!-- <p>
 					This equation, $\textit{L}= \sum_{k}^{ } \left (-y_{k}  \right )\cdot \textit{ln}\left ( \hat y_{k} \right )$ is not a typical solution.
