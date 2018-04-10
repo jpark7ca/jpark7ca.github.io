@@ -155,7 +155,7 @@
                 <p>
                     In this post, I don't think there is a need to explain the softmax activation (multiclass logistic regression) and cross entropy cost function
                     since there are so many other sources that explain theses topics well, fortunately. By the way, my favorite machine learning lectures are from Andew Ng. 
-                    For the derivate of the cost function with respect to $z_{i}$, we just need to know that the output of the softmax function represents the probability 
+                    For the derivative of the cost function with respect to $z_{i}$, we just need to know that the output of the softmax function represents the probability 
                     of what each output suggests (e.g., dog, cat or rabbit), that is a probability distribution over all posible outcomes (k).
                     In the example of "dog, cat and rabbit" classification, the possible outcomes are 3 ($s_{0}^{3}$, $s_{1}^{3}$ and $s_{2}^{3}$).
                 </p>
@@ -411,7 +411,7 @@
                 <p>
                     By the way, the reason, $h = \sum_{k=0}^{2} e^{z_{k}},\quad {h}' = e^{z_{0}^{3}}$ is that $\sum_{k=0}^{2} e^{z_{k}}$ is equal to 
                     $e^{z_{0}^{3}} + e^{z_{1}^{3}} + e^{z_{2}^{3}}$. Since I am going to find the derivative of h (${h}'$) with respect to a $e^{z_{0}^{3}}$,  
-                    $e^{z_{1}^{3}}$ and $e^{z_{2}^{3}}$ are treated as contants, thus resulting in ${h}' = e^{z_{0}^{3}} + 0 + 0$
+                    $e^{z_{1}^{3}}$ and $e^{z_{2}^{3}}$ are treated as constants, thus resulting in ${h}' = e^{z_{0}^{3}} + 0 + 0$
                 </p>
                 <p>
                     When $k \neq i$ (consequently, $k = 1$ and $k = 2$),
