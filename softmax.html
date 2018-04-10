@@ -243,7 +243,7 @@
                 </p>
                 <p>
                     By using the chain rule of calculus ($\frac{\mathrm{d}y}{\mathrm{d}x} =  \frac{\mathrm{d}y}{\mathrm{d}u}\frac{\mathrm{d}u}{\mathrm{d}x}$), the process can be
-                    divided in two parts: $\frac{\partial C}{\partial s_{k}}$ and $\frac{\partial s_{k}}{\partial z_{i}}$. First, let focus on the derivative of cost function 
+                    divided in two parts: $\frac{\partial C}{\partial s_{k}}$ and $\frac{\partial s_{k}}{\partial z_{i}}$. First, let's focus on the derivative of cost function 
                     with respect to $s_{k}$ values. Since the cost function, $C=\sum_{k}^{ } -{y}{_{k}}\cdot ln(s{_{k}})$ is in $f = ln(x)$ format (where its derivative is
                     ${f}' = \frac{1}{x}$), the derivative of cost function with respect to $s_{k}$ can be expressed in :
                 </p>
@@ -342,11 +342,32 @@
                     Because of summation notation, the whole process of finding derivative of cost function in generalized 
                     format has been confusing for me to visualize detailed steps. It may be easier for trained mathematicians
                     or engineers, but for beginners in calculus, using a small sample (3 categories) instead of summation is 
-                    a better way to see the process as you can see from above. Now, let's find the derivative of softmax, 
-                    $\frac{\partial s_{k}}{\partial z_{i}}$ with respect to a $z_{i}$ value to complete the derivative of cost function.
+                    a better way to see the process as you can see from above.
                 </p>
                 <p>
+                    Now, let's find the derivative of softmax, $\frac{\partial s_{k}}{\partial z_{i}}$ with respect to a $z_{i}$ value to complete the objective.
+                    The softmax activation function is in $f = \frac{g}{h}$ format where its derivative is ${f}' = \frac{{g}'h - {h}'g}{h^{2}}$.
+                </p>
+                <p>
+                    $$
+                    s_{i} = s(z_{i}) = \frac{e^{z_{i}}}{\sum_{k}^{ }\ e^{z_{k}}}
+                    $$
+                </p>
+                <p>
+                    The derivative of softmax function with respexct to a $z_{i}$ can be expressed in: 
+                </p>
+                <p>
+                    $$
+                    \frac{\partial s_{k}}{\partial z_{i}} = \left\{\begin{matrix}
+                    
+                    \frac{\partial s_{k=i}}{\partial z_{i}} = \frac{(e^{z_{i}})\cdot (\sum_{k}^{} e^{z_{k}}) - (e^{z_{i}})\cdot (e^{z_{i}})}{ (\sum_{k}^{ } e^{z_{k}})^2}
+                    \qquad when\: k = i
+                    \\ \\
+                    \frac{\partial s_{k\neq i}}{\partial z_{i}} = \sum_{k\neq i}^{ } \frac{(e^{z_{k\neq i}})\cdot (\sum_{k}^{} e^{z_{k}}) - (e^{z_{i}})\cdot (e^{z_{k\neq i}})}{ (\sum_{k}^{ } e^{z_{k}})^2}
+                    \qquad when\: k \neq i
 
+                    \end{matrix}\right.
+                    $$
                 </p>
 				<!-- <p>
 					This equation, $\textit{L}= \sum_{k}^{ } \left (-y_{k}  \right )\cdot \textit{ln}\left ( \hat y_{k} \right )$ is not a typical solution.
