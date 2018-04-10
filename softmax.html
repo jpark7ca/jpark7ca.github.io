@@ -350,7 +350,7 @@
                 </p>
                 <p>
                     $$
-                    s_{i} = s(z_{i}) = \frac{e^{z_{i}}}{\sum_{k}^{ }\ e^{z_{k}}}
+                    s_{i} = s(z_{i}) = \frac{g}{h} =\frac{e^{z_{i}}}{\sum_{k}^{ }\ e^{z_{k}}}
                     $$
                 </p>
                 <p>
@@ -360,10 +360,10 @@
                     $$
                     \frac{\partial s_{k}}{\partial z_{i}} = \left\{\begin{matrix}
                     
-                    \frac{\partial s_{k=i}}{\partial z_{i}} = \frac{(e^{z_{i}})\cdot (\sum_{k}^{} e^{z_{k}}) - (e^{z_{i}})\cdot (e^{z_{i}})}{ (\sum_{k}^{ } e^{z_{k}})^2}
+                    \frac{\partial s_{k=i}}{\partial z_{i}} = \frac{{g}'h - {h}'g}{h^{2}} = \frac{(e^{z_{i}})\cdot (\sum_{k}^{} e^{z_{k}}) - (e^{z_{i}})\cdot (e^{z_{i}})}{ (\sum_{k}^{ } e^{z_{k}})^2}
                     \qquad when\: k = i
                     \\ \\
-                    \frac{\partial s_{k\neq i}}{\partial z_{i}} = \sum_{k\neq i}^{ } \frac{(e^{z_{k\neq i}})\cdot (\sum_{k}^{} e^{z_{k}}) - (e^{z_{i}})\cdot (e^{z_{k\neq i}})}{ (\sum_{k}^{ } e^{z_{k}})^2}
+                    \frac{\partial s_{k\neq i}}{\partial z_{i}} = \frac{{g}'h - {h}'g}{h^{2}} = \sum_{k\neq i}^{ } \frac{(e^{z_{k\neq i}})\cdot (\sum_{k}^{} e^{z_{k}}) - (e^{z_{i}})\cdot (e^{z_{k\neq i}})}{ (\sum_{k}^{ } e^{z_{k}})^2}
                     \qquad when\: k \neq i
 
                     \end{matrix}\right.
@@ -377,8 +377,8 @@
                     $\frac{\partial C}{\partial z_{0}^{3}} = \sum_{k=0}^{2} \frac{\partial C}{\partial s_{k}}\frac{\partial s_{k}}{\partial z_{0}^{3}}$
                     where $\sum_{k=0}^{2} \frac{\partial s_{k}}{\partial z_{0}^{3}}$ are $\frac{\partial s_{0}^{3}}{\partial z_{0}^{3}}$, 
                     $\frac{\partial s_{1}^{3}}{\partial z_{0}^{3}}$ and $\frac{\partial s_{2}^{3}}{\partial z_{0}^{3}}$. 
-                    Keep in mind that we are trying to find the derivative of cost funciton with respect to a $z_{0}^{3}$. 
-                    Therefore, $i$ is equal to 0:
+                    Keep in mind that in this case, we are trying to find the derivative of cost funciton with respect to a $z_{0}^{3}$; 
+                    therefore, $i$ is equal to 0:
                 </p>
                 <p>
                     $$
@@ -390,6 +390,31 @@
                         + -y_{2}\cdot \frac{1}{s_{2}^{3}}\cdot \mathbf{\frac{\partial s_{2}^{3}}{\partial z_{0}^{3}}} ) \\
                     \end{align*}
                     $$
+                </p>
+                <p>
+                    When $k = i$ (consequently, $k = 0$),
+                </p>
+                <p>
+                    $$
+                    \begin{align*}
+                    \frac{\partial s_{0}^{3}}{\partial z_{0}^{3}} &= \frac{(e^{z_{0}^{3}})\cdot (\sum_{k=0}^{2} e^{z_{k}}) - (e^{z_{0}^{3}})\cdot (e^{z_{0}^{3}})}{ (\sum_{k=0}^{2} e^{z_{k}})^2} 
+                    \qquad when\: g = e^{z_{0}^{3}},\quad {g}' =  e^{z_{0}^{3}}
+                    \: and\: h = \sum_{k}^{} e^{z_{k}},\quad {h}' = e^{z_{0}^{3}} \\
+                    &= \frac{(e^{z_{0}^{3}})\cdot \cancel{(\sum_{k=0}^{2} e^{z_{k}})}}{(\sum_{k=0}^{2} e^{z_{k}})\cdot \cancel{(\sum_{k=0}^{2} e^{z_{k}})}}
+                    - \frac{(e^{z_{0}^{3}})\cdot (e^{z_{0}^{3}})}{(\sum_{k=0}^{2} e^{z_{k}})\cdot (\sum_{k=0}^{2} e^{z_{k}})} \\
+                    &= \frac{e^{z_{0}^{3}}}{\sum_{k=0}^{2} e^{z_{k}}}\cdot (1- \frac{e^{z_{0}^{3}}}{\sum_{k=0}^{2} e^{z_{k}}}) \\
+                    &= \mathbf{s_{0}^{3}\cdot (1- s_{0}^{3})}
+                    
+                    \end{align*}
+                    $$
+                </p>
+                <p>
+                    By the way, the reason, $h = \sum_{k=0}^{2} e^{z_{k}},\quad {h}' = e^{z_{0}^{3}}$ is that $\sum_{k=0}^{2} e^{z_{k}}$ is equal to 
+                    $e^{z_{0}^{3}} + e^{z_{1}^{3}} + e^{z_{2}^{3}}$. Since I am going to find the derivative of h (${h}'$) with respect to a $e^{z_{0}^{3}}$,  
+                    $e^{z_{1}^{3}}$ and $e^{z_{2}^{3}}$ are treated as contants, thus resulting in ${h}' = e^{z_{0}^{3}} + 0 + 0$
+                </p>
+                <p>
+                    When $k \neq i$ (consequently, $k = 1$ and $k = 2$),
                 </p>
 				<!-- <p>
 					This equation, $\textit{L}= \sum_{k}^{ } \left (-y_{k}  \right )\cdot \textit{ln}\left ( \hat y_{k} \right )$ is not a typical solution.
@@ -413,7 +438,10 @@
 	 crossorigin="anonymous"></script>
 	<script type="text/x-mathjax-config">
 		MathJax.Hub.Config({
-		  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+          tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]},
+          TeX: {
+            extensions: ["cancel.js"]
+          }
 		});
 		</script>
 	<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/MathJax.js?config=TeX-MML-AM_CHTML">
